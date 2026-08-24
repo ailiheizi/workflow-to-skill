@@ -1,0 +1,4 @@
+# One Host bundle row: Actweave binds standard Skills to existing tools.
+- insert:
+    - id: actweave
+      name: '@poiema/actweave'

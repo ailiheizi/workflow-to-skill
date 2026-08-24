@@ -1,0 +1,5 @@
+# Add the RSS view to DSH's existing Web client roster. The package remains a
+# normal DSH bundle; DSH owns the shell, session, and view lifecycle.
+- insert:
+    - id: actweave-rss-page
+      name: '@poiema/actweave-rss-page'

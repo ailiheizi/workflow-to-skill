@@ -1,0 +1,35 @@
+{
+  "name": "workflow-to-skill",
+  "version": "0.1.0",
+  "description": "Author reusable workflow Skills from goals and existing capabilities.",
+  "license": "AGPL-3.0-or-later",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "plugins/*"
+  ],
+  "engines": {
+    "node": ">=24.14.0"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check --workspace @poiema/actweave",
+    "verify": "npm run verify --workspace @poiema/actweave && npm run build --workspace @poiema/actweave-rss-page && npm run test --workspace @poiema/actweave-rss-page",
+    "test": "npm run verify",
+    "build:rss-client": "npm run build --workspace @poiema/actweave-rss-page",
+    "acceptance:clean-profile": "npm run acceptance:clean-profile --workspace @poiema/actweave",
+    "acceptance:native-mcp": "npm run acceptance:native-mcp --workspace @poiema/actweave",
+    "acceptance:native-mcp-negative": "npm run acceptance:native-mcp-negative --workspace @poiema/actweave",
+    "acceptance:page-browser": "npm run acceptance:page-browser --workspace @poiema/actweave",
+    "security:audit": "npm run security:audit --workspace @poiema/actweave && npm audit"
+  },
+  "devDependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@types/node": "24.10.1",
+    "esbuild": "^0.25.0",
+    "js-yaml": "4.3.1",
+    "tsdown": "0.22.14",
+    "tsx": "4.23.1",
+    "typescript": "5.9.3"
+  }
+}
