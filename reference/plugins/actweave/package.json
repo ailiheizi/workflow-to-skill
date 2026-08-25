@@ -2,7 +2,7 @@
   "name": "@poiema/actweave",
   "version": "0.0.0",
   "description": "Author standard DSH Skills backed by existing typed tools.",
-  "license": "AGPL-3.0-or-later",
+  "license": "Apache-2.0",
   "private": true,
   "type": "module",
   "main": "./lib/index.js",

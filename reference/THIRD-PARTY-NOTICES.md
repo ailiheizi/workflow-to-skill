@@ -1,6 +1,6 @@
 # Third-party notices
 
-Actweave is licensed under `AGPL-3.0-or-later`. Third-party components retain
+Actweave is licensed under `Apache-2.0`. Third-party components retain
 their own licenses; inclusion in Actweave does not relicense those components.
 
 ## Copied source

@@ -345,7 +345,7 @@ npm run security:audit
 README.md                               产品思想和创作标准
 README.zh-CN.md                         根 README 的简体中文翻译
 AI_GUIDE.md                             AI 辅助安装说明
-LICENSE                                 AGPL-3.0-or-later 许可证
+LICENSE                                 Apache-2.0 许可证
 workflow-to-skill/SKILL.md              纯 Skill 创作者
 workflow-to-skill-with-surface/SKILL.md Skill + 专用 Surface 创作者
 reference/                              精选的 DSH 证据与验收 fixture
@@ -374,5 +374,5 @@ Weft 说明真实执行、副作用、恢复、回执和产物属于执行层或
 工作流方法，而不必重新构建已经负责执行和验证工作的系统。它的实际优势和跨
 Harness 覆盖范围应该由证据证明，而不是由这个思想自行假定。
 
-项目采用 [AGPL-3.0-or-later](LICENSE) 许可证。参考证据涉及的第三方
+项目采用 [Apache License 2.0](LICENSE) 许可证。参考证据涉及的第三方
 声明保存在 `reference/` 中。

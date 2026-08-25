@@ -399,7 +399,7 @@ idea or prior work existed elsewhere.
 README.md                               product idea and authoring standard
 README.zh-CN.md                         Simplified Chinese translation
 AI_GUIDE.md                             instructions for AI-assisted installation
-LICENSE                                 AGPL-3.0-or-later license
+LICENSE                                 Apache-2.0 license
 workflow-to-skill/SKILL.md              Skill-only author
 workflow-to-skill-with-surface/SKILL.md Skill + dedicated Surface author
 reference/                              selected DSH evidence and acceptance fixtures
@@ -433,6 +433,6 @@ systems that already execute and verify the work. Its practical advantage and
 cross-Harness reach should be demonstrated by evidence, not assumed from the
 idea alone.
 
-The project is licensed under
-[AGPL-3.0-or-later](LICENSE). Third-party notices for the reference
+The project is licensed under the
+[Apache License 2.0](LICENSE). Third-party notices for the reference
 evidence are kept in `reference/`.
