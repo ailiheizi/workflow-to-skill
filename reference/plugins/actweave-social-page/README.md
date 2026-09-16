@@ -17,11 +17,12 @@ and not a live account read.
 Task: one brief, one platform/account/role context, the draft editor, and a
 local preview that updates while you type.
 
-![账号页: login entry, readiness check, account pool, rotation policy, and the rotation proposal action](../../media/social-workbench-accounts.png)
+![账号页: one panel with the platform, the added accounts, and the login-and-add action](../../media/social-workbench-accounts.png)
 
-Accounts: the official login entry, a readiness check, a non-secret nickname
-pool per platform, the rotation policy, and the Skill rotation proposal.
-Rotation asks the Skill for a recommendation; it never switches credentials.
+Accounts: one account per sign-in. `登录并添加账号` asks the Skill to open the
+official login page in the user's own browser, the user signs in there, and the
+verified non-secret nickname is appended to the list. The page never receives a
+cookie, and the account list holds no credential.
 
 ![Skill 页: an arbitrary installed slash Skill dispatched with the current task context](../../media/social-workbench-skill.png)
 
@@ -33,9 +34,11 @@ The workbench has three focused areas and one primary path:
 - **任务** keeps the brief, platform, account, role, research, drafting,
   editing, review, and local preview in one task context. A conforming draft
   response is written back into the editor for human revision;
-- **账号** keeps a separate non-secret nickname pool, rotation policy, current
-  task account, official login link, and readiness check for each platform.
-  Duplicate nicknames are removed and the first valid account is selected;
+- **账号** adds one account per sign-in. The Skill opens the platform's official
+  login page in the user's own browser, the user signs in there, and only the
+  resulting non-secret nickname is recorded; nothing is typed into the page. The
+  list marks the account used for the current task and offers a rotation
+  proposal once more than one account exists;
 - **Skill** provides an arbitrary installed slash Skill entry point while the
   common research and draft actions stay in the task editor.
 
