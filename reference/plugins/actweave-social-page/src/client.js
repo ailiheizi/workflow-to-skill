@@ -5,6 +5,7 @@ const VIEW_ID = 'social-ops-workbench'
 const VIEW_LABEL = '社媒工作台'
 const DEFAULT_SKILL = '/xiaohongshu-zhihu-content-operator'
 const inject = ['slots', 'sessions']
+const workbenchMemory = new Map()
 
 const platforms = {
   xiaohongshu: { label: '小红书', mark: '红', loginUrl: 'https://www.xiaohongshu.com/', note: '登录读取与发布绑定分别检查' },
@@ -390,23 +391,24 @@ function SkillsView({ state, actions, busy, openState }) {
   ] })
 }
 
-function Workbench({ useSession, useConversation, submit, openView }) {
+function Workbench({ sessionId, useSession, useConversation, submit, openView }) {
   installStyles()
   const snapshot = useSession(value => value)
   const conversation = useConversation(value => value)
+  const remembered = workbenchMemory.get(sessionId) ?? {}
   const [active, setActive] = useState('task')
-  const [platformKey, setPlatformKey] = useState('xiaohongshu')
-  const [mode, setMode] = useState('draft')
-  const [accountLists, setAccountLists] = useState({ xiaohongshu: [], zhihu: [] })
-  const [selectedAccounts, setSelectedAccounts] = useState({ xiaohongshu: '', zhihu: '' })
-  const [personaKey, setPersonaKey] = useState('technical')
-  const [customPersona, setCustomPersona] = useState('')
-  const [topic, setTopic] = useState('')
-  const [title, setTitle] = useState('')
-  const [body, setBody] = useState('')
-  const [imagePaths, setImagePaths] = useState('')
-  const [skillCommand, setSkillCommand] = useState(DEFAULT_SKILL)
-  const [skillRequest, setSkillRequest] = useState('')
+  const [platformKey, setPlatformKey] = useState(remembered.platformKey ?? 'xiaohongshu')
+  const [mode, setMode] = useState(remembered.mode ?? 'draft')
+  const [accountLists, setAccountLists] = useState(remembered.accountLists ?? { xiaohongshu: [], zhihu: [] })
+  const [selectedAccounts, setSelectedAccounts] = useState(remembered.selectedAccounts ?? { xiaohongshu: '', zhihu: '' })
+  const [personaKey, setPersonaKey] = useState(remembered.personaKey ?? 'technical')
+  const [customPersona, setCustomPersona] = useState(remembered.customPersona ?? '')
+  const [topic, setTopic] = useState(remembered.topic ?? '')
+  const [title, setTitle] = useState(remembered.title ?? '')
+  const [body, setBody] = useState(remembered.body ?? '')
+  const [imagePaths, setImagePaths] = useState(remembered.imagePaths ?? '')
+  const [skillCommand, setSkillCommand] = useState(remembered.skillCommand ?? DEFAULT_SKILL)
+  const [skillRequest, setSkillRequest] = useState(remembered.skillRequest ?? '')
   const [platformStates, setPlatformStates] = useState({ xiaohongshu: 'unknown', zhihu: 'unknown' })
   const [submitting, setSubmitting] = useState(false)
   const [awaitingNodeCount, setAwaitingNodeCount] = useState(null)
@@ -415,6 +417,9 @@ function Workbench({ useSession, useConversation, submit, openView }) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
+  useEffect(() => {
+    workbenchMemory.set(sessionId, { mode, platformKey, accountLists, selectedAccounts, personaKey, customPersona, topic, title, body, imagePaths, skillCommand, skillRequest })
+  }, [sessionId, mode, platformKey, accountLists, selectedAccounts, personaKey, customPersona, topic, title, body, imagePaths, skillCommand, skillRequest])
   const nodes = useMemo(() => displayNodes(conversation?.views?.get('chat')?.legacy?.nodes), [conversation])
   const persona = personaFor(personaKey)
   const platform = platformFor(platformKey)
@@ -606,11 +611,13 @@ function Workbench({ useSession, useConversation, submit, openView }) {
 function apply(ctx) {
   ctx.slots.inject('conversation.view', () => ctx.slots.register({
     name: 'conversation.view', id: VIEW_ID, order: 30, label: () => VIEW_LABEL,
-    inject: sessionId => {
-      const session = ctx.sessions.binding(sessionId)?.session
-      if (session === undefined) throw new Error(`actweave-social-page: session "${sessionId}" is unavailable`)
-      return { submit: text => session.prompt([{ type: 'text', text }], 'queue') }
-    },
+    inject: sessionId => ({
+      submit: text => {
+        const session = ctx.sessions.binding(sessionId)?.session
+        if (session === undefined) return Promise.reject(new Error(`actweave-social-page: session "${sessionId}" is not bound yet; retry in a moment`))
+        return session.prompt([{ type: 'text', text }], 'queue')
+      },
+    }),
   }, Workbench))
 }
 
