@@ -14,9 +14,10 @@
   "scripts": {
     "build": "npm run build --workspaces --if-present",
     "check": "npm run check --workspace @poiema/actweave",
-    "verify": "npm run verify --workspace @poiema/actweave && npm run build --workspace @poiema/actweave-rss-page && npm run test --workspace @poiema/actweave-rss-page",
+    "verify": "npm run verify --workspace @poiema/actweave && npm run build --workspace @poiema/actweave-rss-page && npm run test --workspace @poiema/actweave-rss-page && npm run build --workspace @poiema/actweave-social-page && npm run test --workspace @poiema/actweave-social-page",
     "test": "npm run verify",
     "build:rss-client": "npm run build --workspace @poiema/actweave-rss-page",
+    "build:social-client": "npm run build --workspace @poiema/actweave-social-page",
     "acceptance:clean-profile": "npm run acceptance:clean-profile --workspace @poiema/actweave",
     "acceptance:native-mcp": "npm run acceptance:native-mcp --workspace @poiema/actweave",
     "acceptance:native-mcp-negative": "npm run acceptance:native-mcp-negative --workspace @poiema/actweave",

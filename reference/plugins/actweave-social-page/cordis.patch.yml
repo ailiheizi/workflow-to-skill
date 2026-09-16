@@ -1,0 +1,4 @@
+# Add one optional prompt-only view to DSH's existing conversation tabs.
+- insert:
+    - id: actweave-social-page
+      name: '@poiema/actweave-social-page'

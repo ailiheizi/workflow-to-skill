@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "ok": true,
+  "command": "deliver",
+  "type": "workflow",
+  "input": "/Users/macos/Documents/other_project/actweave/reference/evidence/archify-model-radar/model-radar.workflow.json",
+  "output": "/Users/macos/Documents/other_project/actweave/reference/evidence/archify-model-radar/model-radar.html",
+  "specification": {
+    "sha256": "77474c0804b7cbb373066508e27805c68170772c2e731b1e20d96e8afeaa3c3c",
+    "bytes": 5116
+  },
+  "artifact": {
+    "sha256": "bad14acdb4368b607243600aa641b29f2a5ccd64c9136c310a3f074a505c07d0",
+    "bytes": 716761
+  },
+  "validation": {
+    "checksPassed": 9,
+    "checkCount": 9,
+    "compositionProfile": "showcase",
+    "compositionStatus": "pass",
+    "errors": 0,
+    "warnings": 0
+  }
+}

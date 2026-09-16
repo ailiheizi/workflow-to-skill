@@ -1,6 +1,6 @@
 ---
 name: workflow-to-skill-with-surface
-description: Create or revise one reusable workflow Skill plus an optional harness-native Prompt Surface that maps a dedicated form, Page, button set, command UI, or result view to ordinary Skill messages and Harness results. Use only when the user explicitly requests a dedicated interface for invoking the Skill or presenting its result; use workflow-to-skill when the workflow merely produces a webpage, UI, image, report, or other artifact as output.
+description: Create or revise one reusable workflow Skill plus an optional harness-native Prompt Surface that maps a dedicated form, Page, button set, command UI, or result view to ordinary Skill messages and Harness results. Use only when the user explicitly requests a dedicated interface for invoking the Skill or presenting its result; use workflow-to-skill when the workflow merely produces a webpage, interactive diagram, image, report, or other artifact as output.
 metadata:
   version: 1.0.0
 ---
@@ -15,6 +15,34 @@ the Harness's ordinary result.
 The target Harness loads the Skill, runs the Agent, and invokes existing CLI,
 MCP, HTTP, API, Dify, n8n, ComfyUI, or other capabilities. Do not create an
 executor, workflow runtime, Surface runtime, or second state protocol.
+
+## Choose The Authoring Action
+
+This Skill supports two ordinary-language authoring actions. The labels are
+guidance for the Agent, not commands, metadata, a schema, or a second runtime
+protocol.
+
+- **Create**: turn a goal and confirmed real capabilities into one candidate
+  workflow `SKILL.md`, then describe the optional native Surface mapping.
+- **Evolve**: inspect the current workflow Skill, its Surface mapping, and real
+  execution evidence, then propose the smallest justified Skill or native
+  adapter revision. Evolve does not automatically install, promote, or publish
+  anything.
+
+Use **Create** when there is no existing Skill to preserve. Use **Evolve** only
+when the exact current Skill and usable evidence from a real run, test,
+artifact, or external result are available. If they are not, report the gap.
+
+```text
+Create
+  goal + real capabilities -> Skill + optional native Surface
+Execute
+  Harness + Agent + existing tools -> ordinary result and evidence
+Evolve
+  current Skill/Surface + evidence -> root-cause review + smallest candidate diff
+External gate
+  independent replay, tests, or review -> accept, reject, or insufficient evidence
+```
 
 ## Authoring Method
 
@@ -79,9 +107,44 @@ Make these meanings clear:
   existing duplicate-safe side-effect contract.
 - **Tests**: equivalent Chat and Surface requests plus safe success, failure,
   untrusted-input, secret, and review-continuation cases.
+- **Evolve evidence**: when revising, the current revision, observed facts,
+  root-cause hypothesis, candidate diff or `no-change`, preserved invariants,
+  regression case, and external acceptance gate.
 
 Do not let UI choices silently define the workflow's tools, branches, recovery,
 authority, or completion criteria.
+
+## Evolve From Real Evidence
+
+For an **Evolve** request, read the exact current Skill, the visible
+input-to-prompt mapping, the native Surface implementation or binding, and the
+evidence from the relevant run. Separate observed facts from explanations
+before proposing a change.
+
+Route the likely cause before editing anything:
+
+| Evidence points to | Candidate action |
+| --- | --- |
+| Workflow method, decision boundary, recovery, or completion evidence | Propose the smallest Skill diff. |
+| Control validation or input-to-prompt mapping | Propose the smallest native Surface adapter change, preserving the Skill contract. |
+| Harness discovery, message, permission, credential, result, or lifecycle binding | Report or repair that Harness binding; do not conceal it in the Skill or Surface prompt. |
+| CLI, API, external workflow, or transaction behavior | Report the external capability defect or use its supported fix. |
+| Goal, metric, reference answer, or evaluator | Revisit the task/evaluator before changing the Skill or controls. |
+| Temporary service condition, conflicting evidence, or no identifiable cause | Prefer `no-change` or `insufficient-evidence`. |
+
+If a change is justified, return the smallest candidate diff and state which
+workflow and Surface invariants it preserves: the same Skill semantics, the
+same ordinary Harness path, the same authority and verification rules, and no
+direct tool call from the Surface. Include applicability, a likely
+counterexample or regression, and an independent replay plan. An empty diff is
+valid when the evidence does not support a general change.
+
+Do not replace the current installed or published Skill or Surface as an
+implicit part of Evolve. An external user, Git review, test, evaluator, or
+Harness gate must decide whether to accept, reject, or request more evidence.
+One successful Surface run does not prove that the revised workflow is better;
+compare the prior and candidate behavior on an independent or previously unseen
+case when claiming improvement.
 
 ## Workflow Skill Contract
 
@@ -154,6 +217,11 @@ tool call accepted
 != result verified
 ```
 
+Evidence that one run completed is not by itself evidence that an evolved Skill
+or Surface is better. A claim of improvement needs an independent replay or
+comparison that can distinguish the candidate behavior from the prior behavior
+and from an external change.
+
 ## Prompt Construction
 
 Construct one visible ordinary user message using the Harness's normal Skill
@@ -199,6 +267,26 @@ A Prompt Surface must not:
 
 If the Harness lacks a usable message entrypoint or result API, report the
 adapter gap. Do not grow a Workflow-to-Skill Surface runtime.
+
+## Reuse Existing Presentation Tools
+
+Use existing presentation capabilities when they fit the requested interface.
+For a workflow diagram, an available Skill such as
+[Archify](https://github.com/tt-a1i/archify) can generate an artifact through the
+Agent's ordinary tool path; the Surface presents it through the Harness's
+supported result or artifact view. Inspect the tool's actual instructions and
+the host's display support. A standalone diagram with browsing controls is an
+output artifact and uses the Skill-only variant; it is not a run interface.
+
+Keep viewer controls such as focus and search distinct from controls that
+submit work. A run or method-revision request becomes a visible ordinary
+Harness message. Method feedback follows the existing authoring/review flow,
+updates the Skill, then regenerates the view. Do not execute a graph edit or
+infer live progress from viewer animation. Identify the Skill revision and
+source records, mark unexercised branches, and keep diagram checks distinct
+from business success. The renderer's schema remains external. Presentation-only
+dependencies stay optional for Chat execution; if a diagram is required output,
+declare its dependency and report missing capabilities honestly.
 
 ## Operating Controls
 
@@ -258,6 +346,7 @@ Validate the installed workflow Skill independently first. Then verify:
 
 Return:
 
+- the selected authoring action (**Create** or **Evolve**);
 - the reviewed workflow `SKILL.md`;
 - the combined Skill and Surface proposal;
 - the Harness-native Surface implementation when requested and supported;
@@ -265,7 +354,10 @@ Return:
 - confirmed dependencies, bindings, and adapter gaps;
 - Skill and Surface installation, discovery, and invocation evidence;
 - review-continuation evidence when that control is offered;
-- validation evidence separated from untested claims.
+- validation evidence separated from untested claims;
+- for **Evolve**, the observed facts, root-cause routing, smallest candidate
+  diff or `no-change`, preserved invariants, regression case, validation plan,
+  and external acceptance recommendation.
 
 Keep the Surface optional. Sharing only the Skill must preserve the workflow's
 method and ordinary Harness usability.

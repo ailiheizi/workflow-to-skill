@@ -1,6 +1,6 @@
 ---
 name: workflow-to-skill
-description: Turn a goal and existing CLI, MCP, HTTP, API, or external workflow capabilities into one reviewable reusable Agent Skill. Use when the user asks to create or revise a workflow SKILL.md without a dedicated interface for invocation or result presentation. A webpage, UI, image, or report produced as workflow output does not count as a Surface; use workflow-to-skill-with-surface only for a requested form, Page, button set, command UI, or dedicated result view around the Skill.
+description: Turn a goal and existing CLI, MCP, HTTP, API, or external workflow capabilities into one reviewable reusable Agent Skill. Use when the user asks to create or revise a workflow SKILL.md without a dedicated interface for invocation or result presentation. A webpage, interactive diagram, image, or report produced as workflow output does not count as a Surface; use workflow-to-skill-with-surface only for a requested form, Page, button set, command UI, or dedicated result view around the Skill.
 metadata:
   version: 1.0.0
 ---
@@ -14,6 +14,34 @@ program, registry entry, or runtime.
 The target Harness loads the Skill, runs the Agent, and invokes tools. Existing
 CLI, MCP, HTTP, API, Dify, n8n, ComfyUI, or other systems perform the real work.
 Do not implement an executor or copy an external workflow graph into the Skill.
+
+## Choose The Authoring Action
+
+This Skill supports two ordinary-language authoring actions. The labels are
+guidance for the Agent, not commands, metadata, a schema, or a runtime
+protocol.
+
+- **Create**: turn a stated goal and confirmed real capabilities into one
+  candidate workflow `SKILL.md`.
+- **Evolve**: inspect an existing workflow Skill together with real execution
+  evidence and propose the smallest justified revision. Evolve does not mean
+  automatic self-modification, automatic installation, or automatic promotion.
+
+Use **Create** when there is no existing Skill to preserve. Use **Evolve** only
+when the current Skill revision and evidence from an actual run, test, artifact,
+or external result can be read. If either is missing, say so instead of
+inventing a lesson.
+
+```text
+Create
+  goal + real capabilities -> candidate SKILL.md
+Execute
+  Harness + existing tools -> observed result and evidence
+Evolve
+  current Skill + evidence -> root-cause review + smallest candidate diff
+External gate
+  independent replay, tests, or review -> accept, reject, or insufficient evidence
+```
 
 ## Authoring Method
 
@@ -50,6 +78,49 @@ the source. If the environment cannot write, install, discover, or invoke the
 Skill, return the complete candidate and report the exact gap. Do not invent a
 private file or execution API.
 
+## Evolve From Real Evidence
+
+For an **Evolve** request, complete the normal capability and authority review,
+then add this evidence review before proposing a change:
+
+1. Read the exact current Skill revision and identify the task, inputs,
+   capability bindings, and success evidence it promised.
+2. Separate exact observations from interpretations. Exact observations include
+   tool output, request or run IDs, HTTP/status results, files, diffs, test
+   output, timestamps, and externally visible state. A user's summary or a
+   model's explanation is a hypothesis until supported by those observations.
+3. Route the likely root cause before editing the Skill:
+
+   | Evidence points to | Candidate action |
+   | --- | --- |
+   | Method, decision boundary, recovery guidance, or completion evidence in the Skill | Propose a Skill diff. |
+   | Tool name, parameter, permission, credential, discovery, or lifecycle binding | Report or repair the target-Harness adapter/binding; do not hide it in the Skill. |
+   | Deterministic CLI, API, external workflow, or transaction behavior | Report the external capability defect or use its supported fix. |
+   | Goal, metric, reference answer, or test evaluator | Revisit the task/evaluator before changing the Skill. |
+   | Broad strategy failure not expressible as a method correction | Record a model or capability limitation; do not pad the Skill with guesses. |
+   | Temporary network/service condition, or no causal evidence | Prefer `no-change` or `insufficient-evidence`. |
+
+4. If a Skill change is justified, propose the smallest Markdown diff that
+   addresses the observed cause. State the behavior and scope it changes, the
+   invariants it preserves, applicable and non-applicable cases, a likely
+   counterexample or regression, and how to replay it.
+5. An empty diff is valid. Use it when the evidence belongs elsewhere, is
+   contradictory, is too small to generalize, or does not show a behavioral
+   gap. Do not turn every failure into a longer prompt.
+6. Validate the candidate on an independent or previously unseen
+   representative case when the required Harness and capabilities permit it.
+   Compare with the prior Skill when claiming improvement. One successful run
+   proves that run, not that the Skill is generally better.
+7. Keep the current installed or published Skill unchanged until the user or
+   an external Git, test, evaluator, or Harness review accepts the candidate.
+   Report a recommendation such as `promote`, `reject`, or
+   `insufficient-evidence`; do not perform promotion, rollback, or release as
+   an implicit part of Evolve.
+
+The Evolve result should make the facts, root-cause hypothesis and alternatives,
+candidate diff (or no diff), preserved invariants, applicability, counterexample,
+validation plan, and unverified claims easy to inspect.
+
 ## Proposal And Review
 
 The proposal is ordinary reviewable prose, not another workflow format. Make
@@ -72,6 +143,27 @@ these meanings easy to inspect:
 Do not demand details that do not affect the workflow. Do not finalize a
 runnable Skill while a material decision remains unresolved unless an explicit
 unattended policy already covers that decision.
+
+For **Evolve**, also identify the current revision, evidence used, the proposed
+behavioral change, and the external gate that would decide whether it becomes
+the next revision.
+
+## Optional Visual Review
+
+When a diagram helps review the method or explain a result, use an available
+visualization Skill or tool such as [Archify](https://github.com/tt-a1i/archify).
+Inspect its actual instructions and capabilities. A viewer for a generated
+diagram does not require the Surface variant. A tool used only to illustrate
+the method need not become a dependency of the generated workflow; if the
+diagram is a required output, declare its real dependency. If the requested
+renderer is unavailable, report the gap; otherwise use text when sufficient.
+
+Derive the view from the relevant Skill revision and, for a run view, its source
+records. Preserve important decisions, identify summarized details, and label
+planned versus observed or unexercised paths. Diagram checks prove properties
+of the artifact, not workflow success. Keep the renderer's schema external and
+the Skill complete without the view. When feedback changes the method, revise
+the Skill through the normal authoring flow, then regenerate its diagram.
 
 ## Operating Posture
 
@@ -189,17 +281,26 @@ tool call accepted
 Report success only when the generated Skill's stated evidence exists. Report
 running, partial, failed, cancelled, unknown, or unverified states honestly.
 
+Evidence of a completed run is not by itself evidence that an evolved Skill is
+better. A claim of improvement needs an independent replay or comparison that
+can distinguish the candidate's behavior from the prior Skill and from an
+external change.
+
 ## Deliverable
 
 Return:
 
+- the selected authoring action (**Create** or **Evolve**);
 - the reviewed workflow `SKILL.md`;
 - confirmed capabilities and target-Harness bindings;
 - assumptions and unresolved integration gaps;
 - the chosen operating posture and material review decisions;
 - installation and discovery evidence, or the exact gap;
 - the explicit invocation used for the installed candidate;
-- validation and behavioral evidence, separated from untested claims.
+- validation and behavioral evidence, separated from untested claims;
+- for **Evolve**, the observed facts, root-cause routing, smallest candidate
+  diff or `no-change`, preserved invariants, regression case, validation plan,
+  and external `promote`/`reject`/`insufficient-evidence` recommendation.
 
 The installation and test record is the authoring report, not a second runtime
 protocol. Keep the generated Skill small enough for an Agent to load cheaply.

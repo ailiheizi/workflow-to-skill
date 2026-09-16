@@ -2,12 +2,63 @@
 
 [English](README.md) | 简体中文
 
-复制下面这段话，发送给您的 AI Harness：
+<p align="center">
+  <a href="https://github.com/deepseek-ai/deepseek-harness"><img alt="已在 DeepSeek Harness 验证" src="https://img.shields.io/badge/verified%20on-DeepSeek%20Harness-1f6feb?style=flat-square"></a>
+</p>
+
+<p align="center">
+  <strong>把目标和已有工具变成一个可复用的 Agent Skill。</strong><br>
+  无需手工编排执行 DAG，不新增运行时；由 Harness 继续使用已有 CLI、MCP、HTTP 和 API 执行。
+</p>
+
+<p align="center">
+  <code>目标 + 已有工具 -> SKILL.md -> 全新 Harness 会话 -> 已验证结果</code>
+</p>
+
+![Workflow-to-Skill 在 DeepSeek Harness 中经过观测的创作、复用和验证链路](reference/media/dsh-evidence.jpg)
+
+<p align="center"><sub>由生成的 Skill 和真实持久化 DSH 会话整理成的证据图。<a href="reference/evidence/dsh-model-signal-radar/README.md">查看案例记录。</a></sub></p>
+
+## 让 AI Harness 安装
+
+复制下面这一句话，发送给 Codex 或其他兼容的 AI Harness：
 
 ```text
 请按照下面的指南安装并配置 Workflow-to-Skill：
 https://raw.githubusercontent.com/ailiheizi/workflow-to-skill/refs/heads/main/AI_GUIDE.md
 ```
+
+Harness 会读取指南，把两个创作 Skill 安装到其原生 Skill 位置，确认是否发现成功，
+并告诉您如何创建第一个工作流。接受前请审阅它提出的文件变更。
+
+## 在 DSH 中完成的真实端到端验证
+
+下面是 DSH 持久化的真实会话，不是产品效果图。真实模型先调用
+`workflow-to-skill` 写出 `dsh-model-signal-radar`；随后，一个全新会话发现并明确
+调用这个 Skill，再使用 DSH 已有的 `web_search` 与 `bash`/`curl` 能力执行。
+
+这次运行从 DeepMind 官方页面取得 HTTP 200，观测发布日期，返回附来源链接的
+结果，并把设备级可用性和厂商基准数据保留为明确的“未独立验证”。
+
+```text
+由 workflow-to-skill 创建
+-> 被全新 DSH 会话发现
+-> web_search + bash/curl
+-> 官方 URL 返回 HTTP 200
+-> 返回经过验证的结果
+```
+
+证据：[案例记录](reference/evidence/dsh-model-signal-radar/README.md)、
+[生成的 Skill](reference/evidence/dsh-model-signal-radar/SKILL.md)、
+[复用请求](reference/evidence/dsh-model-signal-radar/reuse-request.md)与
+[最终结果](reference/evidence/dsh-model-signal-radar/success-output.md)。
+
+观测环境为 DSH `0.1.0-rc.7`、`DeepSeek-V4-Flash`，时间是北京时间
+2026-08-26（UTC 2026-08-25）。DSH 是首个经过验证的参考 Harness，不是项目依赖，
+也不代表官方背书。可移植资产仍然是 Skill；其他 Harness 需要提供等价的发现和
+工具绑定。
+
+## 这个仓库是什么
 
 Workflow-to-Skill 将目标和已有工具能力转化为可读、可审阅、可复用的
 Agent Skill。
@@ -54,6 +105,47 @@ Workflow-to-Skill 不拥有执行器、工具注册表、工作流引擎、DAG�
 - **绑定于 Harness**：Skill 发现、准确工具名、权限、凭据、任务生命周期和结果约定；
 - **外部所有**：实际命令、API、工作流、副作用和持久执行状态。
 
+## 2.0：由证据驱动的演进
+
+2.0 增加的是第二种创作动作，而不是新的执行系统。一次真实运行可以暴露 Skill
+哪里不完整，但运行结果不会自动晋升为下一版本。
+
+```text
+Create（创建）
+  目标 + 真实能力 -> 候选 SKILL.md
+Execute（执行）
+  Harness + 已有工具 -> 观测结果与证据
+Evolve（演进）
+  当前 Skill + 证据 -> 根因审阅 + 最小候选 diff
+外部门禁
+  独立重放、测试或审阅 -> 接受、拒绝或证据不足
+```
+
+完整思路是：
+
+```text
+Workflow -> Skill -> Evidence -> Better Skill candidate
+工作流 -> Skill -> 证据 -> 更好的 Skill 候选
+```
+
+创作 Agent 先把观测到的事实和解释分开，再判断问题属于哪一层：
+
+| 证据指向 | 应改变什么 |
+| --- | --- |
+| Skill 的方法、决策边界、恢复或完成证据 | 最小的候选 `SKILL.md` diff |
+| Harness 的工具、参数、权限、凭据、发现或生命周期绑定 | 目标适配器或绑定，而不是 Skill |
+| 确定性的 CLI、API、外部工作流或事务行为 | 外部能力或其支持的配置 |
+| 目标、指标、参考答案或评测器 | 任务或评测定义 |
+| 广泛的策略局限或暂时性服务故障 | 通常不修改 Skill |
+| 相互矛盾或不足的证据 | `no-change` 或 `insufficient-evidence` |
+
+这样的路由避免把每次失败都变成长 Prompt。`Evolve` 返回事实、最可能的根因及
+替代解释、最小 diff（或不修改）、保留的不变量、反例和验证计划。它不会自动
+安装、发布、晋升或回滚版本；Git、测试、评测器、Harness 或人仍然是外部门禁。
+
+2.0 的声明刻意保持克制：Skill 可以通过证据驱动的审阅变得更好；这不等于 Skill
+会自动自我修改，也不等于每次成功都能泛化，更不等于本仓库拥有执行状态。
+
 ## 选择一个创作 Skill
 
 只使用其中一个：
@@ -63,12 +155,41 @@ Workflow-to-Skill 不拥有执行器、工具注册表、工作流引擎、DAG�
 | 创建一个可从普通 Chat 或其他 Harness 入口调用的可复用工作流 | [`workflow-to-skill`](workflow-to-skill/SKILL.md) |
 | 创建同一种工作流，并附加专用表单、Page、按钮组、命令界面或结果视图 | [`workflow-to-skill-with-surface`](workflow-to-skill-with-surface/SKILL.md) |
 
-如果网页、报告、图片或 UI 是工作流的**输出**，不需要使用 Surface 版本。只有当
+如果网页、报告、图片或交互式流程图是工作流的**输出**，不需要使用 Surface 版本。
+点击节点、浏览图表本身不会使它成为 Prompt Surface。只有当
 用户需要一个专门用来调用 Skill 或展示 Harness 结果的界面时，才使用 Surface
 版本。
 
 两个创作 Skill 都会生成一个普通的 `SKILL.md`。Surface 版本还可以生成一个
 Harness 原生界面，但工作流 Skill 在没有该界面时仍然必须可以完整使用。
+
+## 按需使用现有可视化 Skill
+
+当图表能帮助审阅或理解工作流时，可以使用 [Archify](https://github.com/tt-a1i/archify)
+等现有可视化 Skill。Archify 保持独立、可选：Workflow-to-Skill 描述方法，
+Harness 执行工作流，Archify 根据方法或运行记录绘图。它的绘图 JSON 属于
+外部工具，不是工作流的执行标准。
+
+Skill 本身仍应完整可读。方法图应保留重要决策，并说明哪些细节被概括；
+运行图应注明来源记录，区分实际观察到的步骤、计划分支和未触发分支。
+图形校验和播放动画不能证明业务执行成功。审阅意见改变方法时，先通过
+普通创作流程修订 Skill，再根据该版本重新绘图。
+
+例如，向 Harness 提出：
+
+```text
+用 workflow-to-skill 创建一个模型更新简报 Skill。
+如果 Archify 可用，用它将建议方法画出来，方便审阅。
+有真实运行记录后，再展示实际路径，并标注没有执行的分支。
+```
+
+如果用户需要专用 Surface，它可以展示这份图表产物。「运行」「修改流程」
+等控件仍通过 Harness 提交普通消息；图表自带的控件只负责浏览产物。
+应先确认目标 Harness 实际具备的展示和消息接口，再承诺对应功能。
+
+参见 [Archify 组合试用与证据](reference/evidence/archify-model-radar/README.md)：
+从已有 Skill 和保存的 DSH 记录生成交互图。本次验证了绘图与浏览器交互，
+没有重新执行 DSH，也未接入实时状态。默认安装流程不安装 Archify。
 
 ## 可以创建什么
 
@@ -168,6 +289,25 @@ source URL、published_at、title 和 summary 字段。
 -> 通过普通 Harness 请求复用
 ```
 
+### 6. 提出经过测量的改进（2.0）
+
+完成一次真实运行后，把当前 Skill 和原始证据交回同一个创作 Skill。要求它先归因，
+再修改：
+
+```text
+使用 $workflow-to-skill 演进 .agents/skills/model-release-brief/SKILL.md。
+
+下面是准确的运行证据：<路径、日志、测试输出、标识和观测到的外部结果>。
+
+请把事实和假设分开。判断根因是在 Skill、Harness 绑定、外部能力、任务/评测器、
+暂时性条件还是未知。返回最小的候选 Markdown diff（或 no-change）、保留的不变量、
+一个反例和独立重放计划。不要安装或晋升候选版本。
+```
+
+只有经过外部审阅或测试门禁后，才应用候选版本。有效的重放应在一个没有用于构思
+修改的代表性案例上比较旧 Skill 与候选 Skill。如果证据指向工具、绑定、评测器或
+暂时性服务问题，就保持 Skill 不变并记录该结论。
+
 ## 工作流 Skill 标准
 
 这是一套语义创作规范，不是新的文件格式。输出使用标准 Skill frontmatter 和
@@ -207,6 +347,10 @@ Agent 才可以自行推断。实质性歧义需要审阅。缺失工具、凭�
 
 准确工具名和权限声明属于目标 Harness 绑定。已有宿主约定时使用该约定，不要
 发明通用的 Workflow-to-Skill 工具或权限 schema。
+
+当创作请求是 **Evolve** 时，还要写明当前 Skill 版本和所用证据，把事实与假设分开，
+标出最可能的根因，并给出最小的行为 diff 或明确的 `no-change`。同时说明保留的不变量、
+可能的回归以及独立验证方法。接受和回滚仍在本仓库之外完成。
 
 ## 运行时真相
 
@@ -267,6 +411,19 @@ Prompt Surface 是可选的。
 Surface 可以收集和验证非敏感输入、应用可见默认值、构造可审阅的 Prompt、通过
 Harness 的普通入口提交，并展示普通结果。
 
+一个参考实现是
+[`reference/plugins/actweave-social-page`](reference/plugins/actweave-social-page/README.md)
+中的 DSH 社媒运营工作台：带本地实时预览的任务编辑器、只记录非敏感昵称的账号池与
+Skill 轮换提案、Session 级角色选择，以及任意已安装 slash Skill 的调度入口。每个
+控件都提交普通 Skill 消息并展示普通 Session 结果。页面本身不拥有凭据存储、平台
+客户端、上传路径、重试循环或发布状态。
+
+![参考 Prompt Surface：DeepSeek Harness 中的社媒运营工作台](reference/media/social-workbench-task.png)
+
+<sub>截图来自加载该插件的真实 DSH Web 会话。草稿与账号昵称是页面中手动输入的示例
+内容；图中不含 Agent 输出、真实账号读取或发布结果。其余视图见[任务、账号与
+Skill](reference/plugins/actweave-social-page/README.md#what-it-looks-like)。</sub>
+
 Surface 不能直接调用工具、授予权限、收集密钥、拥有工作流分支、复制重试或验证
 逻辑，也不能创建另一套状态或事件协议。不可信的多行输入必须明确保持为数据，不能
 注入工具、权限或姿态变更。
@@ -286,7 +443,7 @@ Workflow-to-Skill 不绑定 DSH。选择最小的现有 Harness：它需要能�
 
 | 候选项 | 适用情况 |
 | --- | --- |
-| **DSH** | 希望使用本仓库中的参考适配器和验收证据。 |
+| **[DeepSeek Harness（DSH）](https://github.com/deepseek-ai/deepseek-harness)** | 希望使用首个经过验证的参考 Harness 和本仓库中的验收证据。 |
 | **Codex 或其他 Agent Skills 宿主** | 已经可以发现标准 Skill，并提供所需 CLI、MCP 或应用工具。 |
 | **Harness 后面的 Weft** | Weft 管理持久工作流、审批、回执或产物，Harness 管理 Skill 加载和 Agent 循环。 |
 | **Weft 自身作为 Harness** | 所选 Weft 部署本身提供 Skill 发现、Agent 循环、能力调用和普通结果 API。 |
@@ -305,16 +462,26 @@ Workflow-to-Skill 不绑定 DSH。选择最小的现有 Harness：它需要能�
 - 若要与普通 Skill 创作基线比较虚假成功、虚构工具、不安全重试、漏掉审阅和安装
   失败，需要对比评测。
 
+2.0 的创作路径已经写入两份参考 Skill，但本仓库没有自动演进服务。下面的 DSH 案例
+证明了创建、发现、复用和结果验证；它本身不能证明修改后的 Skill 改善了行为。要作出
+“变得更好”的声明，还需要带证据的基线/候选重放，以及外部接受决定。
+
+[DSH model-signal-radar 案例](reference/evidence/dsh-model-signal-radar/README.md)
+是首个观测到的完整闭环：真实模型创作 Skill，完成的恢复会话确认发现和绑定，随后
+一个全新 DSH 会话通过普通 Skill 路径明确调用它并获得有来源验证的结果。初次创作
+调用方在候选文件和结构验证完成后超时，因此证据如实记录恢复过程，而没有把初次
+会话错误标记成终态成功。
+
 DSH 参考实现目前有聚焦的结构、Host guard、原生 MCP、干净 profile 和浏览器
 Surface 验收测试。参见
 [`reference/plugins/actweave` 包](reference/plugins/actweave/README.md#current-evidence)。
 这些测试不能证明未经测试的 Weft、Dify、n8n、ComfyUI、任意 CLI 或跨 Harness
 行为。
 
-当前确定性证据快照，观测于 2026-08-25：
+确定性参考测试快照，观测于 2026-08-25：
 
-- `npm test`：26 项测试通过，其中包括 23 项 Host、Skill、guard 和 MCP 合同测试，
-  以及 3 项独立 RSS Prompt Surface 测试；
+- `npm test`：28 项测试通过，其中包括 23 项 Host、Skill、guard 和 MCP 合同测试、
+  3 项独立 RSS Prompt Surface 测试，以及 2 项社媒工作台测试；
 - `npm run security:audit`：架构守卫通过，`npm audit` 报告 0 个漏洞。
 
 复现这些检查所需的精选源码、fixture、锁文件和脚本已包含在 `reference/` 中。

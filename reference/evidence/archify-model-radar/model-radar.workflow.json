@@ -1,0 +1,85 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "一个 Skill，从创建到真实复用",
+    "locale": "zh-CN",
+    "quality_profile": "showcase",
+    "views": [
+      {
+        "id": "create",
+        "label": "① 创建与恢复",
+        "focus": ["author", "written", "timeout", "recovery"],
+        "note": "据 2026-08-25 UTC 的已保存 DSH 记录：候选已写出，调用端超时；恢复会话确认原文件，未重写。"
+      },
+      {
+        "id": "reuse",
+        "label": "② 全新会话复用",
+        "focus": ["loaded", "search", "fetch", "report"],
+        "note": "据历史复用记录：明确加载同一个 Skill，使用 web_search 与 bash/curl，返回带来源与未知项的简报。"
+      },
+      {
+        "id": "limits",
+        "label": "③ Skill 的失败约定",
+        "focus": ["fetch", "unreachable", "stop"],
+        "note": "虚线只表达 Skill 约定。此复用记录没有触发来源全部不可达，不能把这条分支算成已测试。"
+      }
+    ]
+  },
+  "lanes": [
+    { "id": "authoring", "label": "创建 · 已保存的 DSH 记录（2026-08-25 UTC）" },
+    { "id": "execution", "label": "复用 · 全新 DSH 会话，普通 Skill + 工具调用" },
+    { "id": "outcome", "label": "产物 · 历史结果复盘，非实时执行画面" },
+    { "id": "contract", "label": "失败约定 · 虚线分支在该复用记录中未触发", "variant": "exception" }
+  ],
+  "mainPath": ["author", "written", "timeout", "recovery", "loaded", "search", "fetch", "report"],
+  "nodes": [
+    { "id": "author", "lane": "authoring", "col": 0, "type": "backend", "label": "创建工作流", "sublabel": "workflow-to-skill", "width": 152 },
+    { "id": "written", "lane": "authoring", "col": 1, "type": "database", "label": "写出 SKILL.md", "sublabel": "结构校验已完成", "width": 128 },
+    { "id": "timeout", "lane": "authoring", "col": 2, "type": "security", "label": "调用端超时", "sublabel": "未观察到 turn/end", "width": 144 },
+    { "id": "recovery", "lane": "authoring", "col": 3, "type": "backend", "label": "恢复并确认", "sublabel": "读取原 Skill，未改写", "width": 144 },
+    { "id": "loaded", "lane": "execution", "col": 3, "type": "backend", "label": "新会话加载 Skill", "sublabel": "dsh-model-signal-radar", "width": 176 },
+    { "id": "search", "lane": "execution", "col": 4, "type": "messagebus", "label": "搜索官方来源", "sublabel": "web_search · 共 4 次", "width": 160 },
+    { "id": "fetch", "lane": "execution", "col": 5, "type": "cloud", "label": "读取官方页面", "sublabel": "bash/curl · HTTP 200", "width": 176 },
+    { "id": "report", "lane": "outcome", "col": 5, "type": "frontend", "label": "返回来源简报", "sublabel": "日期、原句、未知项", "width": 176 },
+    { "id": "unreachable", "lane": "contract", "col": 4, "type": "security", "label": "来源全部不可达", "sublabel": "瞬时失败最多重试一次", "width": 160 },
+    { "id": "stop", "lane": "contract", "col": 5, "type": "security", "label": "报告无法验证", "sublabel": "不推断为「没有更新」", "width": 160 }
+  ],
+  "edges": [
+    { "id": "write", "from": "author", "to": "written" },
+    { "id": "caller-timeout", "from": "written", "to": "timeout", "variant": "security" },
+    { "id": "recover", "from": "timeout", "to": "recovery", "label": "新恢复会话", "variant": "security" },
+    { "id": "reuse-skill", "from": "recovery", "to": "loaded", "label": "同一 Skill", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "discover", "from": "loaded", "to": "search", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "verify-source", "from": "search", "to": "fetch", "variant": "emphasis", "fromSide": "right", "toSide": "left" },
+    { "id": "deliver-report", "from": "fetch", "to": "report", "label": "原文与日期", "variant": "emphasis", "fromSide": "bottom", "toSide": "top" },
+    { "id": "hypothetical-failure", "from": "fetch", "to": "unreachable", "label": "若均不可达 · 未触发", "variant": "dashed", "role": "branch", "fromSide": "bottom", "toSide": "top" },
+    { "id": "honest-stop", "from": "unreachable", "to": "stop", "variant": "dashed", "role": "error" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "方法可复用，执行交给 Harness",
+      "items": [
+        "Skill 约定官方来源、时间窗、恢复方法与完成证据。",
+        "DSH 负责加载和调用；Archify 只生成这份可阅读的图。"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "记录中的结果",
+      "items": [
+        "DeepMind 页面：HTTP 200 · 148,908 bytes。",
+        "来源简报：success-output.md；运行摘要：run-summary.json。"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "这次展示证明什么",
+      "items": [
+        "读取已有 Skill 与历史记录，生成并校验可交互图。",
+        "本次未重跑 DSH；设备可用性与厂商基准仍未经独立验证。"
+      ]
+    }
+  ]
+}
