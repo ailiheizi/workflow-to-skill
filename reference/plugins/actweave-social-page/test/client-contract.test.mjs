@@ -13,12 +13,15 @@ test('social workbench is a prompt-only DSH conversation view', async () => {
   assert.equal(manifest.name, '@poiema/actweave-social-page')
   assert.equal(manifest.dsh?.client?.platform, 'web')
   assert.deepEqual(manifest.dsh?.client?.inject, [
-    '@deepseek-ai/dsh-client-runtime',
     '@deepseek-ai/dsh-client-ui-conversation',
+    '@deepseek-ai/dsh-client-ui-renderer',
+    '@deepseek-ai/dsh-client-ui-session',
   ])
+  assert.deepEqual(manifest.peerDependencies, { '@deepseek-ai/cordis': '^4.0.2' })
   assert.match(patch, /id: actweave-social-page/u)
   assert.match(source, /ctx\.slots\.inject\('conversation\.view'/u)
   assert.match(source, /session\.prompt\(\[\{ type: 'text'/u)
+  assert.match(source, /conversation\?\.views\?\.get\('chat'\)\?\.legacy\?\.nodes/u)
   assert.match(source, /\/xiaohongshu-zhihu-content-operator/u)
   assert.match(source, /social-ops-workbench/u)
   assert.match(source, /账号池/u)

@@ -50,6 +50,15 @@ can route another installed slash Skill without teaching the page its internal
 tools. The page owns no durable account store, credential switcher, platform API
 client, retry loop, upload path, or publication state machine.
 
+This example targets the DSH `0.1.5` client contracts: it injects
+`dsh-client-ui-conversation`, `dsh-client-ui-renderer`, and
+`dsh-client-ui-session`, and reads the conversation nodes from the registered
+`chat` view target snapshot
+(`useConversation().views.get('chat').legacy.nodes`) rather than from the
+Session snapshot, which no longer carries conversation data. It also relies on
+`@deepseek-ai/cordis` `^4.0.2` as its peer. An older `dsh-client-runtime`
+injection is not valid on this version.
+
 The page deliberately does not embed Xiaohongshu or Zhihu. Zhihu rejects
 cross-origin framing, and an embedded browser cookie would not prove that the
 existing `redbook` or `yxer` adapter can reuse the session. Instead, the page

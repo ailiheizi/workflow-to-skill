@@ -67,8 +67,8 @@ function textFromNode(node) {
   return ''
 }
 
-function displayNodes(snapshot) {
-  return snapshot.nodes.filter(node => node.kind === 'assistant' || node.kind === 'tool-result' || node.kind === 'turn-error' || node.kind === 'user' && textFromNode(node).startsWith('/')).map(node => ({
+function displayNodes(list) {
+  return (Array.isArray(list) ? list : []).filter(node => node.kind === 'assistant' || node.kind === 'tool-result' || node.kind === 'turn-error' || node.kind === 'user' && textFromNode(node).startsWith('/')).map(node => ({
     key: `${node.kind}-${node.seq}`,
     kind: node.kind,
     seq: Number(node.seq) || 0,
@@ -381,9 +381,10 @@ function SkillsView({ state, actions, busy, openState }) {
   ] })
 }
 
-function Workbench({ useSession, submit }) {
+function Workbench({ useSession, useConversation, submit }) {
   installStyles()
   const snapshot = useSession(value => value)
+  const conversation = useConversation(value => value)
   const [active, setActive] = useState('task')
   const [platformKey, setPlatformKey] = useState('xiaohongshu')
   const [accountPools, setAccountPools] = useState({ xiaohongshu: '', zhihu: '' })
@@ -404,7 +405,7 @@ function Workbench({ useSession, submit }) {
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
 
-  const nodes = useMemo(() => displayNodes(snapshot), [snapshot])
+  const nodes = useMemo(() => displayNodes(conversation?.views?.get('chat')?.legacy?.nodes), [conversation])
   const persona = personaFor(personaKey)
   const platform = platformFor(platformKey)
   const accountPool = accountPools[platformKey] ?? ''
