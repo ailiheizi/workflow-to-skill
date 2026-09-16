@@ -12,10 +12,14 @@ and generic Skill dispatcher are the shipped interface; the topic, draft, and
 account nicknames are sample input typed locally in the page, not Agent output
 and not a live account read.
 
-![任务页: brief, platform, account, role, draft, and the live local preview](../../media/social-workbench-task.png)
+![任务页: a numbered brief-to-check flow, the task context, the draft editor, and the live local preview](../../media/social-workbench-task.png)
 
-Task: one brief, one platform/account/role context, the draft editor, and a
-local preview that updates while you type.
+Task is one numbered path rather than a form: `① 想做什么` takes the brief,
+`② 研究素材` and `③ 生成草稿` ask the Skill, and `④ 发布前检查` runs the
+validation and dry-run. `③` writes its draft straight into the title and body
+fields, which stay editable, and the right-hand preview follows every keystroke.
+The three selects under the buttons say what they are for — which platform, which
+account, and what tone.
 
 ![账号页: one panel with the platform, the added accounts, and the login-and-add action](../../media/social-workbench-accounts.png)
 

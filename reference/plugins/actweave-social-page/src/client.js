@@ -42,7 +42,7 @@ const styles = `
 .actweave-social__advanced{grid-column:1/-1;border-top:1px solid var(--aw-line);padding-top:9px}.actweave-social__advanced summary{color:var(--aw-muted);font-size:12px;cursor:pointer}.actweave-social__advanced-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding-top:10px}.actweave-social__editor-preview{display:flex;flex-direction:column;gap:10px;min-width:0;border-left:1px solid var(--aw-line);padding-left:14px}.actweave-social__preview-label{margin:0;color:var(--aw-muted);font-size:11px;font-weight:650}.actweave-social__preview-head{display:flex;align-items:center;gap:8px}.actweave-social__preview-avatar{display:grid;place-items:center;width:30px;height:30px;border-radius:50%;background:#1f2937;color:#fff;font-size:11px;font-weight:700}.actweave-social__preview-name{margin:0;font-size:12px;font-weight:650}.actweave-social__preview-sub{margin:1px 0 0;color:var(--aw-faint);font-size:11px}.actweave-social__preview-body{display:grid;place-items:center;min-height:126px;border-radius:10px;padding:12px;background:linear-gradient(145deg,#eef3fa,#dfe7f3);color:#53627a;white-space:pre-wrap;text-align:center;font-size:12px}.actweave-social__preview-title{margin:0;font-size:15px;line-height:21px;font-weight:700}.actweave-social__preview-copy{margin:0;color:var(--aw-muted);white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:19px}.actweave-social__chips{display:flex;flex-wrap:wrap;gap:6px}.actweave-social__chip{display:inline-flex;align-items:center;min-height:24px;border-radius:999px;padding:3px 8px;background:var(--aw-soft);color:#53627a;font-size:11px}
 .actweave-social__platform-row{display:flex;align-items:center;gap:10px}.actweave-social__platform-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:9px;background:#fff0f2;color:#d94d64;font-size:13px;font-weight:700}.actweave-social__platform-mark--blue{background:#eaf5ff;color:#1677d2}.actweave-social__platform-name{margin:0;font-size:14px;font-weight:700}.actweave-social__platform-note{margin:1px 0 0;color:var(--aw-muted);font-size:11px}.actweave-social__status{margin-left:auto;border-radius:999px;padding:4px 8px;background:#fff7e6;color:var(--aw-amber);font-size:11px;white-space:nowrap}.actweave-social__status--requested{background:var(--aw-blue-soft);color:#2455c3}.actweave-social__status--error{background:#fff1f1;color:#a12626}.actweave-social__grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px;margin-top:12px}.actweave-social__account-summary,.actweave-social__account-empty{margin-top:11px;border-radius:9px;padding:10px;background:var(--aw-soft)}.actweave-social__account-summary{display:flex;align-items:center;justify-content:space-between;gap:10px}.actweave-social__account-summary p{margin:0}.actweave-social__account-name{font-size:12px;font-weight:650}.actweave-social__account-note,.actweave-social__account-empty{color:var(--aw-muted);font-size:11px}.actweave-social__account-note{margin-top:2px!important}
 .actweave-social__console{display:grid;grid-template-columns:minmax(180px,.55fr) minmax(0,1.45fr);gap:11px}.actweave-social__console-note{border-radius:9px;padding:11px;background:var(--aw-blue-soft);color:#52627c;font-size:11px;line-height:18px}.actweave-social__skill-form{display:grid;grid-template-columns:1fr;gap:10px}.actweave-social__result{overflow:hidden}.actweave-social__result-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px}.actweave-social__result-title{margin:0;font-size:13px;font-weight:700}.actweave-social__result-count{color:var(--aw-faint);font-size:11px}.actweave-social__latest{border-top:1px solid var(--aw-line);padding:11px 13px}.actweave-social__latest-text{margin:0;max-height:190px;overflow:auto;color:#475467;white-space:pre-wrap;word-break:break-word;font-size:12px;line-height:19px}.actweave-social__empty{margin:0;color:var(--aw-muted);font-size:12px}.actweave-social__activity{border-top:1px solid var(--aw-line)}.actweave-social__activity summary{padding:10px 13px;color:var(--aw-muted);font-size:12px;cursor:pointer}.actweave-social__activity-list{padding:0 13px 4px}.actweave-social__node{border-top:1px solid var(--aw-line);padding:10px 0}.actweave-social__node-label{margin:0 0 3px;color:var(--aw-faint);font-size:11px;font-weight:650}.actweave-social__node-text{margin:0;max-height:150px;overflow:auto;color:#475467;white-space:pre-wrap;word-break:break-word;font-size:11px;line-height:18px}
-.actweave-social__list{display:flex;flex-direction:column;gap:6px;margin-top:11px}.actweave-social__row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--aw-line);border-radius:9px;padding:8px 10px;background:var(--aw-surface)}.actweave-social__row--current{border-color:#cddafb;background:var(--aw-blue-soft)}.actweave-social__row-name{margin:0;font-size:13px;font-weight:650;word-break:break-word}.actweave-social__row-note{margin:1px 0 0;color:var(--aw-muted);font-size:11px}.actweave-social__row-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}.actweave-social__mini{border:1px solid #d2d9e4;border-radius:7px;padding:4px 8px;background:var(--aw-surface);color:#344054;font:inherit;font-size:11px;cursor:pointer}.actweave-social__mini:hover{background:var(--aw-soft)}.actweave-social__mini:disabled{opacity:.5;cursor:default}
+.actweave-social__list{display:flex;flex-direction:column;gap:6px;margin-top:11px}.actweave-social__steps{grid-column:1/-1;display:flex;align-items:center;flex-wrap:wrap;gap:7px}.actweave-social__steps-note{grid-column:1/-1;margin:-4px 0 0;color:var(--aw-faint);font-size:11px}.actweave-social__row{display:flex;align-items:center;justify-content:space-between;gap:10px;border:1px solid var(--aw-line);border-radius:9px;padding:8px 10px;background:var(--aw-surface)}.actweave-social__row--current{border-color:#cddafb;background:var(--aw-blue-soft)}.actweave-social__row-name{margin:0;font-size:13px;font-weight:650;word-break:break-word}.actweave-social__row-note{margin:1px 0 0;color:var(--aw-muted);font-size:11px}.actweave-social__row-actions{display:flex;align-items:center;gap:6px;flex-shrink:0}.actweave-social__mini{border:1px solid #d2d9e4;border-radius:7px;padding:4px 8px;background:var(--aw-surface);color:#344054;font:inherit;font-size:11px;cursor:pointer}.actweave-social__mini:hover{background:var(--aw-soft)}.actweave-social__mini:disabled{opacity:.5;cursor:default}
 @media(prefers-color-scheme:dark){.actweave-social{--aw-bg:#15181d;--aw-surface:#20242b;--aw-soft:#1b1f25;--aw-line:#343b47;--aw-text:#f0f3f8;--aw-muted:#aab3c2;--aw-faint:#8994a5;--aw-blue-soft:#1e2b43;background:radial-gradient(circle at 82% 0%,#202c43 0,var(--aw-bg) 44%)}.actweave-social__rail{background:rgba(32,36,43,.82)}.actweave-social__button--quiet{border-color:#46505f;color:#d5dbe5}.actweave-social__button--soft{border-color:#38517e;color:#c9d8ff}.actweave-social__input,.actweave-social__select,.actweave-social__textarea{border-color:#46505f}.actweave-social__preview-body{background:linear-gradient(145deg,#2c394c,#202a38);color:#d7dfec}.actweave-social__preview-copy,.actweave-social__latest-text,.actweave-social__node-text{color:#c5ccd7}.actweave-social__chip{color:#c2cad8}.actweave-social__console-note{color:#bdccef}.actweave-social__status--error,.actweave-social__error{background:#3a2224;color:#ffb5ba}.actweave-social__notice{background:#1f382c;color:#a9e2c1}}
 @container(max-width:860px){.actweave-social__layout{grid-template-columns:1fr}.actweave-social__rail{position:static;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.actweave-social__rail-title{display:none}.actweave-social__tab{justify-content:center;min-height:42px}.actweave-social__tab-icon{display:none}.actweave-social__editor{grid-template-columns:1fr}.actweave-social__editor-preview{border-top:1px solid var(--aw-line);border-left:0;padding-top:14px;padding-left:0}}
 @container(max-width:560px){.actweave-social{padding:13px 13px 104px}.actweave-social__header{align-items:flex-start}.actweave-social__title{font-size:21px;line-height:27px}.actweave-social__subtitle{display:none}.actweave-social__brief-row,.actweave-social__context-grid,.actweave-social__grid,.actweave-social__advanced-grid,.actweave-social__console,.actweave-social__editor-form{grid-template-columns:1fr}.actweave-social__task-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.actweave-social__form-actions{align-items:stretch;flex-direction:column}.actweave-social__form-actions .actweave-social__button{width:100%}.actweave-social__section-meta{display:none}}
@@ -225,43 +225,45 @@ function TaskView({ state, actions, busy, openState }) {
   return jsxs('div', { children: [
     jsx('h2', { className: 'actweave-social__sr-only', children: '任务' }),
     jsx('section', { className: 'actweave-social__panel', 'aria-label': '内容任务', children: jsxs('div', { className: 'actweave-social__editor', children: [
-      jsxs('form', { className: 'actweave-social__editor-form', onSubmit: actions.submitPreview, children: [
+      jsxs('form', { className: 'actweave-social__editor-form', onSubmit: actions.submitDraft, children: [
         jsxs('div', { className: 'actweave-social__brief-row', children: [
           jsxs('label', { className: 'actweave-social__field', children: [
-            jsx('span', { className: 'actweave-social__label', children: '主题 / brief' }),
-            jsx('input', { className: 'actweave-social__input', value: topic, onChange: event => { actions.setTopic(event.target.value); actions.clearError() }, placeholder: '这次想研究或表达什么？' }),
-          ] }),
-          jsxs('div', { className: 'actweave-social__task-actions', children: [
-            jsx('button', { className: 'actweave-social__button actweave-social__button--soft', type: 'button', onClick: () => actions.runQuickSkill('research'), disabled: !ready, children: '研究素材' }),
-            jsx('button', { className: 'actweave-social__button', type: 'button', onClick: () => actions.runQuickSkill('draft'), disabled: !ready, children: '生成草稿' }),
+            jsx('span', { className: 'actweave-social__label', children: '① 想做什么' }),
+            jsx('input', { className: 'actweave-social__input', value: topic, onChange: event => { actions.setTopic(event.target.value); actions.clearError() }, placeholder: '一句话写下主题，例如：把重复的运营流程写成 Skill' }),
           ] }),
         ] }),
+        jsxs('div', { className: 'actweave-social__steps', children: [
+          jsx('button', { className: 'actweave-social__button actweave-social__button--soft', type: 'button', onClick: () => actions.runQuickSkill('research'), disabled: !ready, children: '② 研究素材' }),
+          jsx('button', { className: 'actweave-social__button actweave-social__button--soft', type: 'button', onClick: () => actions.runQuickSkill('draft'), disabled: !ready, children: '③ 生成草稿' }),
+          jsx('button', { className: 'actweave-social__button', type: 'button', onClick: actions.submitPreview, disabled: !ready, children: '④ 发布前检查' }),
+        ] }),
+        jsx('p', { className: 'actweave-social__steps-note', children: '② 可以跳过；③ 把草稿写进下面的标题和正文，改完再走 ④；④ 只做校验和 dry-run，不上传、不发布。' }),
         jsxs('div', { className: 'actweave-social__context-grid', children: [
           jsxs('label', { className: 'actweave-social__field', children: [
-            jsx('span', { className: 'actweave-social__label', children: '平台' }),
+            jsx('span', { className: 'actweave-social__label', children: '发到哪个平台' }),
             jsx('select', { className: 'actweave-social__select', value: platformKey, onChange: event => actions.setPlatformKey(event.target.value), children: Object.entries(platforms).map(([key, item]) => jsx('option', { value: key, children: item.label }, key)) }),
           ] }),
           jsxs('label', { className: 'actweave-social__field', children: [
-            jsx('span', { className: 'actweave-social__label', children: '账号' }),
+            jsx('span', { className: 'actweave-social__label', children: '用哪个账号' }),
             jsx('select', { className: 'actweave-social__select', value: selectedAccount, disabled: accountNames.length === 0, onChange: event => actions.setSelectedAccount(event.target.value), children: accountNames.length === 0
-              ? jsx('option', { value: '', children: '在账号页添加' })
+              ? jsx('option', { value: '', children: '先去「账号」页登录添加' })
               : [jsx('option', { value: '', children: '暂不指定' }), ...accountNames.map(name => jsx('option', { value: name, children: name }, name))] }),
           ] }),
           jsxs('label', { className: 'actweave-social__field', children: [
-            jsx('span', { className: 'actweave-social__label', children: '角色' }),
+            jsx('span', { className: 'actweave-social__label', children: '用什么口吻写' }),
             jsx('select', { className: 'actweave-social__select', value: personaKey, onChange: event => actions.setPersonaKey(event.target.value), children: personas.map(item => jsx('option', { value: item.key, children: item.label }, item.key)) }),
           ] }),
         ] }),
         jsxs('label', { className: 'actweave-social__field actweave-social__field--wide', children: [
           jsx('span', { className: 'actweave-social__label', children: '标题' }),
-          jsx('input', { className: 'actweave-social__input', value: title, onChange: event => { actions.setTitle(event.target.value); actions.clearError() }, maxLength: 100, placeholder: 'Skill 生成后仍可直接修改' }),
+          jsx('input', { className: 'actweave-social__input', value: title, onChange: event => { actions.setTitle(event.target.value); actions.clearError() }, maxLength: 100, placeholder: '③ 会写进这里；也可以自己写' }),
         ] }),
         jsxs('label', { className: 'actweave-social__field actweave-social__field--wide', children: [
           jsx('span', { className: 'actweave-social__label', children: '正文' }),
-          jsx('textarea', { className: 'actweave-social__textarea', value: body, onChange: event => { actions.setBody(event.target.value); actions.clearError() }, placeholder: '在这里修改最终文案' }),
+          jsx('textarea', { className: 'actweave-social__textarea', value: body, onChange: event => { actions.setBody(event.target.value); actions.clearError() }, placeholder: '③ 会写进这里；也可以自己写' }),
         ] }),
         jsxs('details', { className: 'actweave-social__advanced', children: [
-          jsx('summary', { children: '媒体与角色要求' }),
+          jsx('summary', { children: '可选：配图路径与补充角色要求' }),
           jsxs('div', { className: 'actweave-social__advanced-grid', children: [
             jsxs('label', { className: 'actweave-social__field', children: [
               jsx('span', { className: 'actweave-social__label', children: '媒体路径（每行一个）' }),
@@ -276,10 +278,6 @@ function TaskView({ state, actions, busy, openState }) {
         ] }),
         error && jsx('p', { className: 'actweave-social__error', role: 'alert', children: error }),
         notice && jsx('p', { className: 'actweave-social__notice', role: 'status', children: notice }),
-        jsxs('div', { className: 'actweave-social__form-actions', children: [
-          jsx('span', { className: 'actweave-social__hint', children: '只检查，不上传或发布。' }),
-          jsx('button', { className: 'actweave-social__button', type: 'submit', disabled: !ready, children: '检查这篇草稿' }),
-        ] }),
       ] }),
       jsxs('article', { className: 'actweave-social__editor-preview', children: [
         jsx('p', { className: 'actweave-social__preview-label', children: '本地预览' }),
@@ -493,10 +491,13 @@ function Workbench({ useSession, useConversation, submit }) {
   }
   const applyPersona = () => void send(personaPrompt(personaKey, customPersona))
   const requestRotation = () => void send(rotationPrompt(platformKey, accountNames.join('\n'), selectedAccount))
-  const submitPreview = event => {
+  const submitDraft = event => {
     event.preventDefault()
+    runQuickSkill('draft')
+  }
+  const submitPreview = () => {
     if (!body.trim()) {
-      setError('先写正文或让 Skill 生成草稿。')
+      setError('先走 ③ 生成草稿，或自己写正文。')
       return
     }
     void send(builtInPrompt('preview', values))
@@ -536,7 +537,7 @@ function Workbench({ useSession, useConversation, submit }) {
   }
 
   const taskState = { platformKey, platform, personaKey, persona, topic, title, body, imagePaths, customPersona, accountNames, selectedAccount, error, notice }
-  const taskActions = { setPlatformKey, setPersonaKey, setTopic, setTitle, setBody, setImagePaths, setCustomPersona, setSelectedAccount: selectAccount, clearError, runQuickSkill, applyPersona, submitPreview }
+  const taskActions = { setPlatformKey, setPersonaKey, setTopic, setTitle, setBody, setImagePaths, setCustomPersona, setSelectedAccount: selectAccount, clearError, runQuickSkill, applyPersona, submitPreview, submitDraft }
   const accountsState = { platformKey, platform, accountNames, selectedAccount, platformState: platformStates[platformKey], error, notice }
   const accountsActions = { setPlatformKey, selectAccount, removeAccount, login, check, requestRotation }
   const skillState = { platform, persona, selectedAccount, skillCommand, skillRequest, error }
