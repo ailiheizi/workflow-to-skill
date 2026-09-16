@@ -56,6 +56,19 @@ existing `redbook` or `yxer` adapter can reuse the session. Instead, the page
 opens the real official login and creator pages in a separate tab and asks the
 ordinary workflow Skill to inspect the configured bindings.
 
+A readiness check also carries the recovery step, so an expired session does not
+end in a dead report. When the read session is unauthenticated, the Skill opens
+the official login page with the OS default browser and waits for the user to
+sign in themselves, then re-runs the read-only check. It is told to use the same
+browser profile the configured read tool already reads, and never a separate,
+fresh, or headless profile: a session created there would not be visible to that
+tool, and exporting cookies to bridge the two is not permitted. No password,
+one-time code, or cookie value is ever requested, typed, read, or stored.
+
+Opening a platform website in a browser is not a substitute for an official read
+binding. When the required binding is missing, the check reports that integration
+gap rather than treating a browser sign-in as the credential.
+
 The controls send this normal DSH message path:
 
 ```text
